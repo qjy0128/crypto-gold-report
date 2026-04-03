@@ -16,8 +16,9 @@
 
 - **平台**: OpenClaw（非 Claude Code）
 - **触发方式**: cron 定时任务
-- **搜索工具**: `WebSearch`
-- **内容提取**: `mcp__web_reader__webReader`
+- **核心工具**:
+  - `WebSearch`: 搜索资讯和行情数据
+  - `mcp__web_reader__webReader`: 提取网页详细内容
 
 ## 数据源
 
@@ -68,12 +69,11 @@
 
 ## 文件结构
 
-```
-crypto-gold-report/
-├── SKILL.md        # 技能定义（搜索策略、报告格式、输出规则）
-├── README.md       # 项目说明
-└── CHANGELOG.md    # 变更记录
-```
+| 文件 | 说明 |
+|------|------|
+| `SKILL.md` | 技能定义文件（触发条件、搜索流程、报告格式、输出规则） |
+| `CHANGELOG.md` | 变更日志 |
+| `README.md` | 本文件 |
 
 ## 风险提示
 
