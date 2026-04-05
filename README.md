@@ -5,7 +5,7 @@
 ## 功能
 
 - 自动生成比特币（BTC）市场报告和黄金（XAU）市场报告
-- 五阶段流程：数据采集（并行） → 资讯处理 → 补充搜索 → 生成报告 → 质量自检
+- 七步执行脚本：BTC价格 → 黄金价格 → 恐惧贪婪指数 → 搜索资讯 → 提取详情 → 补充搜索 → 生成报告
 - 三轮扩展搜索策略（基础 → 扩展关键词 → 站内搜索），时间窗口固定 12 小时
 - 自动去重（同一事件/相同链接/高度相似标题），按来源权威性排序
 - 集成恐惧贪婪指数（Fear & Greed Index）
@@ -24,7 +24,7 @@
 ### 价格数据（主源失败必须尝试全部备用源）
 | 资产 | 数据源优先级链 |
 |------|---------------|
-| BTC/USD | CoinGecko API → CoinGecko 页面 → CoinMarketCap → TradingEconomics → WebSearch |
+| BTC/USD | CoinGecko API → Binance API → CoinPaprika API → CoinGecko 页面 → CoinMarketCap → WebSearch |
 | XAU/USD | TradingEconomics → WebSearch |
 | 国内金价 | cngold.org → WebSearch "周大福 今日金价" → WebSearch "中国黄金 基础金价" |
 | 恐惧贪婪指数 | alternative.me API → alternative.me 页面 → WebSearch |
