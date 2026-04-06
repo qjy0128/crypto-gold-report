@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.0] - 2026-04-07
+
+### Changed — 扩展新闻源、修复时效窗口、增加国内金价备用
+
+- **新闻源扩展**：4个 → 8个，新增 华尔街见闻（wallstreetcn.com）、第一财经（yicai.com）、律动BlockBeats（theblockbeats.info）、Cointelegraph（cointelegraph.com）
+- **时效窗口**：24小时 → 12小时（用户反馈应保持严格时效）
+- **国内金价备用**：主源 chinagoldgroup.com 失败时，新增基于国际金价×汇率÷31.1035 的估算换算法（汇率从中行外汇牌价获取），不再直接标 N/A
+- **去重优先级**：更新为 金十 > 财联社 > 华尔街见闻 > 第一财经 > 律动 > CoinDesk > Cointelegraph > Kitco
+
+## [5.0.0] - 2026-04-07
+
+### Changed — 架构重写：从250行精简到130行
+
+**核心问题**：v1-v4 持续迭代但效果不佳，根本原因是 SKILL.md 过于复杂（250行/9步/15+次tool call），OpenClaw 上的模型无法完整执行。
+
+- **步骤数**：9步 → 5步（合并过滤+填充+扫描为一步）
+- **行数**：250行 → ~130行
+- **新闻源**：6个 → 4个（去掉 cointelegraph，与 coindesk 冗余；去掉 sina贵金属，JS渲染无数据）
+- **砍掉死源**：移除 sge.com.cn（JS渲染）、sge.com.cn/sjzx/mrhq/（JS渲染）、CoinPaprika（不必要的第三备用）
+- **国内金价**：只保留 chinagoldgroup.com 一个源，失败直接 N/A，不浪费调用在 JS 渲染页面上
+- **BTC 备用源**：5级 → 2级（CoinGecko API + Binance API 足够可靠）
+- **外语翻译**：在头部声明、禁止事项、提取规则三处强调
+- **24小时过滤**：明确计算方法"当前日期 - 发布日期 > 1天则丢弃"
+- **规则去重**：每条规则只出现一次，不再在3-5个位置重复
+
 ## [4.0.0] - 2026-04-06
 
 ### Changed — 架构级重构：彻底移除 WebSearch 依赖
