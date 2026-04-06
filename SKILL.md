@@ -194,10 +194,13 @@ description: 生成黄金和比特币市场资讯报告。通过 OpenClaw cron �
 使用 `mcp__web_reader__webReader` 抓取 `https://www.cngold.org/quote/golds/`。
 提取：周大福足金价格、中国黄金基础金价、投资金条价格（单位：元/克）。
 
-若失败，立即执行以下搜索（不可跳过）：
-- `WebSearch` 搜索 `周大福 今日金价 元/克`
-- `WebSearch` 搜索 `中国黄金 基础金价 今日`
-- `WebSearch` 搜索 `今日金店金价 元/克`
+**如果 cngold.org 返回 404、空白、超时、或无有效数据，你不得直接写 N/A。你必须立即执行以下 3 个 WebSearch：**
+
+第1个搜索：`WebSearch` 搜索 `周大福 今日金价 元/克`
+第2个搜索：`WebSearch` 搜索 `中国黄金 基础金价 今日`
+第3个搜索：`WebSearch` 搜索 `今日金店金价 元/克`
+
+**3个搜索必须全部执行完毕后，才能记录国内金价结果。如果3个搜索都没有有效结果，才标注 N/A。**
 
 记录：国内金价数据及其来源。
 
@@ -231,32 +234,47 @@ BTC相关：
 
 **去重**：同一事件只保留一条，按金十数据 > 新浪财经 > CoinDesk > 其他 的优先级保留。
 
-### 步骤 7（补充搜索）
+### 步骤 7（补充搜索 — 必须执行满 3 轮）
 
 数一数当前获取到的资讯数量：
 
 - 利好资讯：___ 条
 - 利空资讯：___ 条
 
-**如果利好 < 5 条**：执行以下搜索
-```
-Bitcoin rally / Bitcoin crash / 比特币 突破 / 比特币 暴跌
-gold surges / gold drops / 黄金 突破 / 黄金 回调
-site:jin10.com 比特币 / site:jin10.com 黄金
-```
-然后回到步骤6提取详情。
+**如果利好 ≥ 5 且利空 ≥ 5 → 跳到步骤 8**
 
-**如果利空 < 5 条**：执行以下搜索
-```
-Bitcoin bearish / Bitcoin sell off / 比特币 利空
-gold bearish / gold sell off / 黄金 利空
-site:tradingeconomics.com gold / site:tradingeconomics.com bitcoin
-```
-然后回到步骤6提取详情。
+**如果任一 < 5 → 必须执行以下 3 轮搜索，不可只执行 1 轮就放弃：**
 
-**重复此步骤直到利好 ≥ 5 且利空 ≥ 5，或者已执行3轮补充搜索。**
+**第 1 轮搜索（必须执行）：**
+```
+WebSearch: "Bitcoin rally" / "Bitcoin crash"
+WebSearch: "gold surges" / "gold drops"
+WebSearch: "比特币 突破" / "比特币 暴跌"
+WebSearch: "黄金 突破" / "黄金 回调"
+```
+执行后回到步骤6提取详情。数一数：利好 ___ 条，利空 ___ 条。
+如果 ≥ 5 → 跳到步骤 8。
 
-如果3轮后仍不足，在报告中标注：本轮资讯共X条（不足5条，已执行X轮扩展搜索）。
+**第 2 轮搜索（第1轮后仍不足5条时必须执行）：**
+```
+WebSearch: "site:jin10.com 比特币" / "site:jin10.com 黄金"
+WebSearch: "site:cls.cn 黄金" / "site:cls.cn 比特币"
+WebSearch: "比特币 利好 利空 今日"
+WebSearch: "黄金 利好 利空 今日"
+```
+执行后回到步骤6提取详情。数一数：利好 ___ 条，利空 ___ 条。
+如果 ≥ 5 → 跳到步骤 8。
+
+**第 3 轮搜索（第2轮后仍不足5条时必须执行）：**
+```
+mcp__web_reader__webReader 抓取 https://www.jin10.com 首页获取最新快讯
+mcp__web_reader__webReader 抓取 https://www.cls.cn 首页获取最新快讯
+WebSearch: "加密货币 最新消息 今日"
+WebSearch: "贵金属 最新消息 今日"
+```
+执行后回到步骤6提取详情。
+
+**3 轮全部执行完后仍不足 → 在报告中标注实际数量。绝不编造。**
 
 ### 步骤 8（填充报告）
 
