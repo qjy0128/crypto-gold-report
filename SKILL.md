@@ -7,6 +7,7 @@ description: 生成黄金和比特币市场资讯报告。仅使用 mcp__web_rea
 
 > 工具：仅 `mcp__web_reader__webReader` | 输出：BTC + 黄金两份报告
 > **语言：全部中文。英文/外文资讯标题必须翻译为中文**
+> **翻译示例**：原标题 "Bitcoin climbs above $70,000" → 报告中写 "比特币攀升突破7万美元"（仅来源列保留英文如 CoinDesk）
 
 ---
 
@@ -47,19 +48,28 @@ description: 生成黄金和比特币市场资讯报告。仅使用 mcp__web_rea
 
 ### 步骤 3：新闻资讯（8次调用）
 
-1. `https://www.jin10.com` → 金十数据，中文财经快讯
-2. `https://www.cls.cn` → 财联社，中文财经快讯
-3. `https://wallstreetcn.com` → 华尔街见闻，中文财经快讯
-4. `https://www.yicai.com` → 第一财经，中文财经新闻（宏观/黄金覆盖强）
-5. `https://www.theblockbeats.info` → 律动BlockBeats，中文加密货币新闻
-6. `https://www.coindesk.com` → CoinDesk，英文加密货币新闻
-7. `https://cointelegraph.com` → Cointelegraph，英文加密货币新闻
-8. `https://www.kitco.com/news/` → Kitco，英文黄金新闻
+⚠️ 每个源调用后，若返回空内容/JS渲染页/无新闻条目 → 立即跳过，不重试
+
+**中文综合财经**：
+1. `https://www.jin10.com` → 金十数据，实时中文财经快讯 ✅
+2. `https://www.cls.cn/telegraph` → 财联社电报，中文财经快讯
+3. `https://www.yicai.com/news/` → 第一财经，中文财经新闻
+
+**英文加密货币**：
+4. `https://www.coindesk.com` → CoinDesk，英文加密货币新闻 ✅
+5. `https://finance.yahoo.com/topic/crypto/` → Yahoo Finance加密货币，50+条聚合新闻 ✅
+
+**英文宏观/黄金**：
+6. `https://edition.cnn.com/business` → CNN Business，英文宏观经济新闻 ✅
+7. `https://www.bbc.com/news/business` → BBC Business，英文宏观经济新闻 ✅
+8. `https://www.kitco.com/news/precious-metals/` → Kitco贵金属新闻
+
+**已确认不可用（不要尝试）**：wallstreetcn.com（JS）、cointelegraph.com（JS）、theblockbeats.info（仅行情）
 
 **提取规则**：
-- 标题：英文必须翻译为中文（来源名称保留英文）
+- 标题：英文必须翻译为中文。示例：原标题"Bitcoin climbs above $70,000" → 填入表格时写"比特币攀升突破7万美元"
 - 时间：仅保留12小时内（当前时间 - 发布时间 > 12小时则丢弃）
-- 去重：同一事件保留一条，优先级 金十 > 财联社 > 华尔街见闻 > 第一财经 > 律动 > CoinDesk > Cointelegraph > Kitco
+- 去重：同一事件保留一条，优先级 金十 > 财联社 > 第一财经 > CoinDesk > Yahoo > CNN > BBC > Kitco
 - 分类：BTC利好 / BTC利空 / 黄金利好 / 黄金利空（宏观资讯两边都用）
 - 不足时标注"暂无"，不编造
 
@@ -69,7 +79,7 @@ description: 生成黄金和比特币市场资讯报告。仅使用 mcp__web_rea
 
 填充后执行扫描：
 - 来源含"综合判断/综合分析/市场共识/综合研判" → 删除
-- 标题含英文/外文 → 翻译为中文
+- 标题含英文/外文 → 翻译为中文（逐条检查，不可保留原文。如 "Bitcoin climbs above $70,000" 必须改为 "比特币攀升突破7万美元"）
 - 发布时间超过12小时 → 删除
 - 价格来源列为空 → 补上数据源名
 

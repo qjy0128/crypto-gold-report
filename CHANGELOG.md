@@ -4,12 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [5.1.0] - 2026-04-07
 
-### Changed — 扩展新闻源、修复时效窗口、增加国内金价备用
+### Changed — 基于实际执行反馈修复
 
-- **新闻源扩展**：4个 → 8个，新增 华尔街见闻（wallstreetcn.com）、第一财经（yicai.com）、律动BlockBeats（theblockbeats.info）、Cointelegraph（cointelegraph.com）
-- **时效窗口**：24小时 → 12小时（用户反馈应保持严格时效）
-- **国内金价备用**：主源 chinagoldgroup.com 失败时，新增基于国际金价×汇率÷31.1035 的估算换算法（汇率从中行外汇牌价获取），不再直接标 N/A
-- **去重优先级**：更新为 金十 > 财联社 > 华尔街见闻 > 第一财经 > 律动 > CoinDesk > Cointelegraph > Kitco
+- **新闻源重构**：从6个扩展到8个，分三类管理
+  - 中文综合财经：jin10.com、cls.cn/telegraph、yicai.com/news
+  - 英文加密货币：coindesk.com、finance.yahoo.com/topic/crypto/
+  - 英文宏观/黄金：edition.cnn.com/business、bbc.com/news/business、kitco.com/news/precious-metals/
+  - 移除 JS 渲染死源：wallstreetcn.com、cointelegraph.com、theblockbeats.info（仅行情）
+- **源失败处理**：新增"返回空内容立即跳过"指令，不重试失败源
+- **时效窗口**：24小时 → 12小时
+- **国内金价备用**：主源失败时，用国际金价×中行汇率÷31.1035 估算
+- **翻译执行强化**：新增翻译示例（"Bitcoin climbs above $70,000" → "比特币攀升突破7万美元"），在3处强调
+- **去重优先级**：金十 > 财联社 > 律动 > 第一财经 > CoinDesk > Kitco
 
 ## [5.0.0] - 2026-04-07
 
