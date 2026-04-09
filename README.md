@@ -7,7 +7,7 @@
 - 自动生成比特币（BTC）市场报告和黄金（XAU）市场报告
 - **纯 webReader 抓取**：不依赖 WebSearch（该环境无 API Key），所有数据通过 `mcp__web_reader__webReader` 直接抓取
 - 五步执行流程：价格获取 → 国内金价 → 新闻抓取 → 填充报告+扫描 → 输出
-- 新闻来源：直接抓取 8 个源（jin10.com、coindesk.com、cls.cn/telegraph、yicai.com/news、finance.yahoo.com/topic/crypto/、edition.cnn.com/business、bbc.com/news/business、kitco.com/news/precious-metals/）
+- 新闻来源：直接抓取 9 个源（jin10.com、coindesk.com、cls.cn/telegraph、yicai.com/news、finance.yahoo.com/topic/crypto/、edition.cnn.com/business、bbc.com/news/business、investing.com/news/commodities-news、forexlive.com/tag/gold/）
 - 自动去重（同一事件/相同链接/高度相似标题），按来源权威性排序
 - 集成恐惧贪婪指数（Fear & Greed Index）
 - 输出前自动扫描：来源合法性、时间精度、价格来源
@@ -27,11 +27,11 @@
 
 | 数据项 | 来源 |
 |--------|------|
-| BTC价格 | CoinGecko API → Binance API → CoinPaprika API → CoinGecko页面 → CoinMarketCap |
-| 国际金价 | TradingEconomics |
+| BTC价格 | Binance API → CoinPaprika API → CoinCap API → Kraken API → CoinGecko API → Blockchain.info → Bitfinex API |
+| 国际金价 | GoldPrice.org API → Swissquote API → TradingEconomics |
 | 国内金价 | 中国黄金集团 (chinagoldgroup.com) → 国际金价×中行汇率估算 |
 | 恐惧贪婪指数 | alternative.me API |
-| 新闻资讯 | jin10.com → coindesk.com → cls.cn/telegraph → yicai.com/news → finance.yahoo.com/topic/crypto/ → edition.cnn.com/business → bbc.com/news/business → kitco.com/news/precious-metals/ |
+| 新闻资讯 | jin10.com → coindesk.com → cls.cn/telegraph → yicai.com/news → finance.yahoo.com/topic/crypto/ → edition.cnn.com/business → bbc.com/news/business → investing.com/news/commodities-news → forexlive.com/tag/gold/ |
 
 ## 文件结构
 

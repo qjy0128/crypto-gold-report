@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.3.0] - 2026-04-10
+
+### Changed — 黄金数据源与资讯数据源验证与扩充
+
+- **国际金价从 1 级扩充到 3 级**：经 webReader 实际验证，确认 3 个可用数据源
+  - GoldPrice.org API（完整数据：价格+涨跌额+涨跌%）→ 提升为首选
+  - Swissquote Forex API（Bid/Ask 报价）
+  - TradingEconomics（原有 HTML 页面源，降为第3优先级）
+- **资讯源从 8 个扩充到 9 个**：
+  - 移除不可用源：kitco.com/news/precious-metals/（返回 1214 错误）
+  - 新增 investing.com/news/commodities-news（商品/黄金新闻，含时间戳）
+  - 新增 forexlive.com/tag/gold/（黄金专题新闻，含时间戳）
+- **不可用源黑名单更新**：新增 kitco.com（1214 错误）
+- **去重优先级更新**：金十 > 财联社 > 第一财经 > CoinDesk > Yahoo > CNN > BBC > Investing.com > ForexLive
+- **README.md 同步更新**：金价和资讯数据源表格同步更新
+
+## [5.2.0] - 2026-04-10
+
+### Changed — BTC 数据源验证与扩充
+
+- **BTC 数据源从 2 级扩充到 7 级**：经 webReader 实际验证，确认 7 个可用 API
+  - Binance API（完整数据：价格+涨跌%+成交量）→ 提升为首选
+  - CoinPaprika API（完整数据：价格+涨跌%+成交量）
+  - CoinCap API（完整数据：价格+涨跌%+成交量）
+  - Kraken API（价格+成交量+加权均价）
+  - CoinGecko API（仅价格，精简 URL 去除被屏蔽的 vol/change 参数）
+  - Blockchain.info（仅价格）
+  - Bitfinex API（价格+成交量）
+- **CoinGecko 主源降级**：原主源 URL 带额外参数（`include_24hr_vol=true&include_24hr_change=true`）被屏蔽（HTTP 403），精简为基础 URL 并降为第5优先级
+- **README.md 同步更新**：数据源表格从过时的 5 级（含不可用源）更新为实际验证的 7 级
+- **移除不存在的数据源**：README 中原列的 "CoinGecko页面" 和 "CoinMarketCap" 从未在 SKILL.md 中定义，已清除
+
 ## [5.1.0] - 2026-04-07
 
 ### Changed — 基于实际执行反馈修复
